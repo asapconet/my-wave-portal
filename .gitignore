@@ -1,1 +1,17 @@
+# dependencies
 node_modules
+
+# tessting
+coverage 
+coverage.json
+typechain 
+
+# production
+/build
+
+package-lock.json
+node_modules
+
+# hardhat files
+artifacts
+cache

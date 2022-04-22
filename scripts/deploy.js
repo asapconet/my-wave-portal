@@ -3,6 +3,7 @@ const inDisplay = (args) => console.log(args); //my easy console func
 const deployMajor = async () => {
   const [deployer] = await hre.ethers.getSigners();
   const accountBalance = await deployer.getBalance();
+  // const contractAddy = await deployer.getAddress();
 
   inDisplay(
     "Your contract is ungoing deployment with address: " + deployer.address
@@ -18,8 +19,10 @@ const deployMajor = async () => {
   const donationContractFactory = await hre.ethers.getContractFactory(
     "WavePortal"
   );
-  const donatetionContract = await donationContractFactory.deploy();
-  await donatetionContract.deployed();
+  const donationContract = await donationContractFactory.deploy();
+  await donationContract.deployed();
+
+  inDisplay("Donation Address: " + donationContract.address);
 };
 
 const runDeployMajor = async () => {
