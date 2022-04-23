@@ -6,21 +6,26 @@ const major = async () => {
   const waveContract = await waveContractFactory.deploy();
   await waveContract.deployed();
 
-  inDisplay("The contract have been deployed to:" + waveContract.address);
-  inDisplay("And the contract was deployed by:" + owner.address);
+  inDisplay("This is the contract address:" + waveContract.address);
+  // inDisplay("And the contract was deployed by:" + owner.address);
 
   let waveCount;
   waveCount = await waveContract.getTotalWaves();
+  inDisplay(waveCount.toNumber());
 
-  let waveTransaction = await waveContract.wave();
-  await waveTransaction.wait();
+  // for sending waves
+  let waveTransaction = await waveContract.wave("Message here");
+  await waveTransaction.wait(); // while transation is minned
 
-  waveCount = await waveContract.getTotalWaves();
+  waveTransaction = await waveContract
+    .connect(randomPerson)
+    .wave("The next message right here");
+  // await waveTransaction.wait([]);  
 
-  waveTransaction = await waveContract.connect(randomPerson).wave();
-  await waveTransaction.wait([]);
+  let allWaves = await waveContract.getAllWaves();
+  inDisplay(allWaves);
 
-  waveCount = await waveContract.getTotalWaves();
+  // waveCount = await waveContract.getTotalWaves();
 };
 
 const runMajor = async () => {
