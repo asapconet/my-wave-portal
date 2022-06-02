@@ -1,7 +1,7 @@
 const inDisplay = (args) => console.log(args); //my easy console func
 
 const major = async () => {
-  const [owner, randomPerson] = await hre.ethers.getSigners();
+  const [_, randomPerson] = await hre.ethers.getSigners();
   const waveContractFactory = await hre.ethers.getContractFactory("WavePortal");
   const waveContract = await waveContractFactory.deploy();
   await waveContract.deployed();
@@ -20,7 +20,7 @@ const major = async () => {
   waveTransaction = await waveContract
     .connect(randomPerson)
     .wave("The next message right here");
-  // await waveTransaction.wait([]);  
+  await waveTransaction.wait();  
 
   let allWaves = await waveContract.getAllWaves();
   inDisplay(allWaves);
