@@ -30,7 +30,7 @@ const runDeployMajor = async () => {
     await deployMajor();
     process.exit(0); // for exiting node process without error
   } catch (error) {
-    inDisplay(error);
+    inDisplay(error, 'something went wrong');
     process.exit(1); // error msg indicating 'Uncaught Fatal Exception'
   }
 };
