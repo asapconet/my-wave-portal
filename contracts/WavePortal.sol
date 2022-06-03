@@ -6,11 +6,12 @@ import "hardhat/console.sol";
 
 contract WavePortal {
     uint256 totalWaves;
+    uint256 private seed;
 
     //the event that accepts and stores the address and...
     event NewWave(address indexed from, uint256 timestamp, string massage);
 
-    //this is a collection of custumized datatypes for our choise of action
+    //this is a collection of custumized datatypes for our choise of action [endpoints]
     struct Wave{ 
         address waver; // stores the waver address
         string massage; // stores the massage the waver decides to send
@@ -20,20 +21,38 @@ contract WavePortal {
     //this decleration (waves) stores all the values of the struct created(wave)
     Wave[] waves;
 
-    constructor() {
-        console.log('heyo, I am a smart contractor...');
+    //this mapping stores the address and time the last user waved
+    mapping(address => uint256) public lastWavedAt;
+    
+
+    constructor() payable {
+        console.log('We have been contructed!');
+
+        seed = (block.timestamp + block.difficulty) % 100;
     }
     
     // _message in the function is what I use to collect users message from frontEnd
     function wave(string memory _message) public {
+
+        //this is to ensure that the prior timestamp is 10mins less than the current timestam stored
+        require(
+            lastWavedAt[msg.sender] + 5 minutes < block.timestamp,
+            "You'll have to wait for 5 minutes"
+        );
+
+        //updating the currents timestamp for the user in check
+        lastWavedAt[msg.sender] = block.timestamp;
+
         totalWaves += 1;
         console.log('%s just waved', msg.sender);
 
         // the actual array that stores the collected data
         waves.push(Wave(msg.sender, _message, block.timestamp));
 
-        // now this emit(shows) logs from event only to the user(client)
-        emit NewWave(msg.sender, block.timestamp, _message);
+        seed = (block.difficulty + block.timestamp + seed) % 100;
+
+        if (seed <= 50) {
+            console.log("%s just won!", msg.sender);
 
         // logic for withdrawing funds to be allocated to the waver from our contract
         uint256 prizeAmount = 0.0001 ether;
@@ -43,12 +62,20 @@ contract WavePortal {
             prizeAmount <= address(this).balance, //if
             "The account does not have up the amount requested for withdrawal" //else
         );
+            
         //logic for sending the money provided the first step is passed
         (bool success, ) = (msg.sender).call{value: prizeAmount}("");
         require(
             success,//if
             "Failded to withdraw money from contract" // else
-        )
+        );
+
+        }
+
+        // now this emit(shows) logs from event only to the user(client)
+        emit NewWave(msg.sender, block.timestamp, _message);
+
+
     }
 
     // remember the struct array? this returns the data saved in it and help us in
