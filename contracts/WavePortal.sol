@@ -37,7 +37,7 @@ contract WavePortal {
         //this is to ensure that the prior timestamp is 10mins less than the current timestam stored
         require(
             lastWavedAt[msg.sender] + 5 minutes < block.timestamp,
-            "You'll have to wait for 5 minutes"
+            "You will have to wait for 5 minutes"
         );
 
         //updating the currents timestamp for the user in check
