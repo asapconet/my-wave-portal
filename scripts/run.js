@@ -25,8 +25,8 @@ const major = async () => {
   let waveTransaction = await waveContract.wave("First waver");
   await waveTransaction.wait(); // while transation is minned
 
-  // let waveTransaction2 = await waveContract.wave("Second waver");
-  // await waveTransaction2.wait();
+  let waveTransaction2 = await waveContract.wave("Second waver");
+  await waveTransaction2.wait();
 
   //getting current balance contract to be sure a trans was held or not
   contractBalance = await hre.ethers.provider.getBalance(waveContract.address);

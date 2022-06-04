@@ -23,7 +23,8 @@ contract WavePortal {
     //this decleration (waves) stores all the values of the struct created(wave)
     Wave[] waves;
 
-    //this mapping stores the address and time the last user waved
+    //this mapping stores the address and time the last user waved 
+    //to avoid spamming and double retake out of time specified
     mapping(address => uint256) public lastWavedAt;
     
 
@@ -39,8 +40,8 @@ contract WavePortal {
 
         //this is to ensure that the prior timestamp is 10mins less than the current timestam stored
         require(
-            lastWavedAt[msg.sender] + 5 minutes < block.timestamp,
-            "You will have to wait for 5 minutes"
+            lastWavedAt[msg.sender] + 1 minutes < block.timestamp,
+            "You will have to wait for 1 minutes"
         );
 
         //updating the currents timestamp for the user in check
