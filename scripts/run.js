@@ -1,4 +1,4 @@
-const inDisplay = (args) => console.log(args); //my easy console func
+const inDisplay = (args, param) => console.log(args, param); //my easy console func
 
 const major = async () => {
   // const [_, randomPerson] = await hre.ethers.getSigners();
@@ -15,20 +15,23 @@ const major = async () => {
   let contractBalance = await hre.ethers.provider.getBalance(
     waveContract.address
   );
-  inDisplay("Contract Balance:", hre.ethers.utils.formatEther(contractBalance));
+  inDisplay(
+    "Available Contract balance:",
+    hre.ethers.utils.formatEther(contractBalance)
+  );
 
   // let waveCount;
   // waveCount = await waveContract.getTotalWaves();
   // inDisplay(waveCount.toNumber());
 
   // for sending waves
-  let waveTransaction = await waveContract.wave("Message here");
+  let waveTransaction = await waveContract.wave("Message here", "");
   await waveTransaction.wait(); // while transation is minned
 
   //getting current balance contract to be sure a trans was held or not
   contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
   inDisplay(
-    "Available Contract Balance:",
+    "Available Contract balance:",
     hre.ethers.utils.formatEther(contractBalance)
   );
 
@@ -38,7 +41,7 @@ const major = async () => {
   // await waveTransaction.wait();
 
   let allWaves = await waveContract.getAllWaves();
-  inDisplay(allWaves);
+  inDisplay(allWaves, "");
 
   // waveCount = await waveContract.getTotalWaves();
 };
