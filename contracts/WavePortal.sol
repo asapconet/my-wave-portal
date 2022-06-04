@@ -53,9 +53,10 @@ contract WavePortal {
         waves.push(Wave(msg.sender, _message, block.timestamp));
 
         seed = (block.difficulty + block.timestamp + seed) % 100;
+        console.log("Random # generated: %s", seed);
 
-        // this is giving a 30% chance that the user wins
-        if (seed <= 30) {
+        // this is giving a 35% chance that the user wins
+        if (seed <= 35) {
             console.log("%s just won!", msg.sender);
 
         // logic for withdrawing funds to be allocated to the waver from our contract
