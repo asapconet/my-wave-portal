@@ -6,6 +6,8 @@ import "hardhat/console.sol";
 
 contract WavePortal {
     uint256 totalWaves;
+
+    // used for generating a random number
     uint256 private seed;
 
     //the event that accepts and stores the address and...
@@ -27,7 +29,8 @@ contract WavePortal {
 
     constructor() payable {
         console.log('We have been contructed!');
-
+        
+        // this generates a new seed for the new user that'll wave
         seed = (block.timestamp + block.difficulty) % 100;
     }
     
@@ -51,7 +54,8 @@ contract WavePortal {
 
         seed = (block.difficulty + block.timestamp + seed) % 100;
 
-        if (seed <= 50) {
+        // this is giving a 30% chance that the user wins
+        if (seed <= 30) {
             console.log("%s just won!", msg.sender);
 
         // logic for withdrawing funds to be allocated to the waver from our contract
