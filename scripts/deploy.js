@@ -16,13 +16,13 @@ const deployMajor = async () => {
       "in our purse!"
   );
 
-  const donationContractFactory = await hre.ethers.getContractFactory(
-    "WavePortal"
-  );
-  const donationContract = await donationContractFactory.deploy();
-  await donationContract.deployed();
+  const waveContractFactory = await hre.ethers.getContractFactory("WavePortal");
+  const waveContract = await waveContractFactory.deploy({
+    value: hre.ethers.utils.parseEther("0.001"),
+  });
+  await waveContract.deployed();
 
-  inDisplay("Donation Address: " + donationContract.address);
+  inDisplay("Contract Address: " + waveContract.address);
 };
 
 const runDeployMajor = async () => {
@@ -30,7 +30,7 @@ const runDeployMajor = async () => {
     await deployMajor();
     process.exit(0); // for exiting node process without error
   } catch (error) {
-    inDisplay(error, 'something went wrong');
+    inDisplay(error, "something went wrong");
     process.exit(1); // error msg indicating 'Uncaught Fatal Exception'
   }
 };
