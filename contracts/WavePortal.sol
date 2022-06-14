@@ -17,7 +17,8 @@ contract WavePortal {
     struct Wave{ 
         address waver; // stores the waver address
         string massage; // stores the massage the waver decides to send
-        uint256 timestamp; // stores the time of event
+        // uint256 timestamp; // stores the time of event
+        uint256 luckNum; // stores the random nuber generated
     }
 
     //this decleration (waves) stores all the values of the struct created(wave)
@@ -51,17 +52,17 @@ contract WavePortal {
         console.log('%s just waved', msg.sender);
 
         // the actual array that stores the collected data
-        waves.push(Wave(msg.sender, _message, block.timestamp));
 
         seed = (block.difficulty + block.timestamp + seed) % 100;
         console.log("Random # generated: %s", seed);
 
+        waves.push(Wave(msg.sender, _message, seed));
         // this is giving a 35% chance that the user wins
-        if (seed <= 35) {
+        if (seed <= 40) {
             console.log("%s just won!", msg.sender);
 
         // logic for withdrawing funds to be allocated to the waver from our contract
-        uint256 prizeAmount = 0.0001 ether;
+        uint256 prizeAmount = 0.001 ether;
 
         // this is like and if and else statements
         require(
@@ -79,8 +80,7 @@ contract WavePortal {
         }
 
         // now this emit(shows) logs from event only to the user(client)
-        emit NewWave(msg.sender, block.timestamp, _message);
-
+        emit NewWave(msg.sender, seed, _message);
 
     }
 
