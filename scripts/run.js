@@ -4,7 +4,7 @@ const major = async () => {
   // const [_, randomPerson] = await hre.ethers.getSigners();
   const waveContractFactory = await hre.ethers.getContractFactory("WavePortal");
   const waveContract = await waveContractFactory.deploy({
-    value: hre.ethers.utils.parseEther("0.1"),
+    value: hre.ethers.utils.parseEther("9999"),
   });
 
   await waveContract.deployed();
@@ -25,8 +25,8 @@ const major = async () => {
   let waveTransaction = await waveContract.wave("First waver");
   await waveTransaction.wait(); // while transation is minned
 
-  let waveTransaction2 = await waveContract.wave("Second waver");
-  await waveTransaction2.wait();
+  // let waveTransaction2 = await waveContract.wave("Second waver");
+  // await waveTransaction2.wait();
 
   //getting current balance contract to be sure a trans was held or not
   contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
@@ -34,7 +34,7 @@ const major = async () => {
     "Available Contract balance:",
     hre.ethers.utils.formatEther(contractBalance)
   );
-
+  
   // waveTransaction = await waveContract
   //   .connect(randomPerson)
   //   .wave("The next message right here");
